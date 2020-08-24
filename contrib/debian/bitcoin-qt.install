@@ -1,0 +1,6 @@
+usr/local/bin/bayemcoin-qt usr/bin
+share/pixmaps/bayemcoin32.xpm usr/share/pixmaps
+share/pixmaps/bayemcoin16.xpm usr/share/pixmaps
+share/pixmaps/bayemcoin128.png usr/share/pixmaps
+debian/bayemcoin-qt.desktop usr/share/applications
+debian/bayemcoin-qt.protocol usr/share/kde4/services/

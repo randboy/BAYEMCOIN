@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bayemcoin Core
+Comment=Connect to the Bayemcoin P2P Network
+Comment[de]=Verbinde mit dem Bayemcoin peer-to-peer Netzwerk
+Comment[fr]=Bayemcoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Bayemcoin, eşten eşe kriptografik sanal para birimi
+Exec=bayemcoin-qt %u
+Terminal=false
+Type=Application
+Icon=bayemcoin128
+MimeType=x-scheme-handler/bayemcoin;
+Categories=Office;Finance;

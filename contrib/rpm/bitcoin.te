@@ -1,0 +1,81 @@
+policy_module(bayemcoin, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type bayemcoin_t;
+type bayemcoin_exec_t;
+init_daemon_domain(bayemcoin_t, bayemcoin_exec_t)
+
+permissive bayemcoin_t;
+
+type bayemcoin_initrc_exec_t;
+init_script_file(bayemcoin_initrc_exec_t)
+
+type bayemcoin_conf_t;
+files_type(bayemcoin_conf_t)
+
+type bayemcoin_var_lib_t;
+files_type(bayemcoin_var_lib_t)
+
+type bayemcoin_var_run_t;
+files_type(bayemcoin_var_run_t)
+
+type bayemcoin_port_t;
+corenet_port(bayemcoin_port_t)
+
+########################################
+#
+# bayemcoin local policy
+#
+allow bayemcoin_t self:process { fork };
+
+allow bayemcoin_t self:fifo_file rw_fifo_file_perms;
+allow bayemcoin_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(bayemcoin_t, bayemcoin_conf_t, bayemcoin_conf_t)
+manage_files_pattern(bayemcoin_t, bayemcoin_conf_t, bayemcoin_conf_t)
+
+manage_dirs_pattern(bayemcoin_t, bayemcoin_var_lib_t, bayemcoin_var_lib_t)
+manage_files_pattern(bayemcoin_t, bayemcoin_var_lib_t, bayemcoin_var_lib_t)
+files_var_lib_filetrans(bayemcoin_t, bayemcoin_var_lib_t, { dir file })
+
+manage_dirs_pattern(bayemcoin_t, bayemcoin_var_run_t, bayemcoin_var_run_t)
+manage_files_pattern(bayemcoin_t, bayemcoin_var_run_t, bayemcoin_var_run_t)
+
+sysnet_dns_name_resolve(bayemcoin_t)
+corenet_all_recvfrom_unlabeled(bayemcoin_t)
+
+allow bayemcoin_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(bayemcoin_t)
+corenet_tcp_sendrecv_generic_node(bayemcoin_t)
+corenet_tcp_sendrecv_all_ports(bayemcoin_t)
+corenet_tcp_bind_generic_node(bayemcoin_t)
+
+gen_require(`
+    type bayemcoin_port_t;
+')
+allow bayemcoin_t bayemcoin_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type bayemcoin_port_t;
+')
+allow bayemcoin_t bayemcoin_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(bayemcoin_t)
+
+files_read_etc_files(bayemcoin_t)
+
+miscfiles_read_localization(bayemcoin_t)
+
+sysnet_dns_name_resolve(bayemcoin_t)
+
+allow bayemcoin_t bayemcoin_exec_t:file execute_no_trans;
+allow bayemcoin_t self:process setsched;
+corecmd_exec_ls(bayemcoin_t)
+corenet_tcp_connect_http_port(bayemcoin_t)
+dev_read_urand(bayemcoin_t)
+fs_getattr_xattr_fs(bayemcoin_t)
+kernel_read_system_state(bayemcoin_t)

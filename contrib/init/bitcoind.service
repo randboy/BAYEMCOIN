@@ -1,0 +1,22 @@
+[Unit]
+Description=Bayemcoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=bayemcoin
+Group=bayemcoin
+
+Type=forking
+PIDFile=/var/lib/bayemcoind/bayemcoind.pid
+ExecStart=/usr/bin/bayemcoind -daemon -pid=/var/lib/bayemcoind/bayemcoind.pid \
+-conf=/etc/bayemcoin/bayemcoin.conf -datadir=/var/lib/bayemcoind -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target
